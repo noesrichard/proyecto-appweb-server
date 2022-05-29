@@ -10,8 +10,11 @@ conectarDB();
 app.use(express.json());
 app.use(cors());
 
-app.use("/api/agencias", require("./routes/agencyRoutes"));
+//app.use("/api/agencias", require("./routes/agencyRoutes"));
 app.use("/api/accounts", require("./routes/accountRoutes"));
+app.use("/api/categories", require("./routes/categoryRoutes"));
+app.use("/api/income", require("./routes/incomeRoutes"));
+app.use("/api/expenses", require("./routes/expenseRoutes"));
 
 const port = process.env.PORT || 9000;
 
