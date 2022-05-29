@@ -59,7 +59,7 @@ exports.update = async (req, res) => {
 		account.name = name;
         account.description = description
 
-		account = await Account.findOneAndUpdate(account, account, {
+        account = await Account.findOneAndUpdate({ _id: req.params.id }, account, {
 			new: true,
 		});
 		res.json(account);

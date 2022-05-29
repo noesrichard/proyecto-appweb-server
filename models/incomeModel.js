@@ -15,7 +15,8 @@ const IncomeSchema = mongoose.Schema({
         require: true
     },
     account: { 
-        type: String, 
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'account',
         require: true
     }, 
     total: { 

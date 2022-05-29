@@ -4,7 +4,7 @@ exports.create = async (req, res) => {
 	try {
 		let income;
 		income = new Income(req.body);
-        console.log(income);
+    
 		await income.save();
 		res.send(income);
 	} catch (error) {
@@ -15,8 +15,9 @@ exports.create = async (req, res) => {
 
 exports.list = async (req, res) => {
 	try {
-		const agencies = await Income.find();
+		const agencies = await Income.find().populate('account');
 		res.json(agencies);
+        console.log(agencies);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send("Error al cargar el registro");
@@ -61,7 +62,7 @@ exports.update = async (req, res) => {
         income.date = date; 
         income.account = account; 
         income.total = total 
-		income = await Income.findOneAndUpdate(income, income, {
+        income = await Income.findOneAndUpdate({ _id: req.params.id }, income, {
 			new: true,
 		});
 		res.json(income);

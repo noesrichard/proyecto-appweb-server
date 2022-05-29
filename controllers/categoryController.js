@@ -57,9 +57,13 @@ exports.update = async (req, res) => {
 		category.name = name;
 		category.description = description;
 
-		category = await Category.findOneAndUpdate(category, category, {
-			new: true,
-		});
+		category = await Category.findOneAndUpdate(
+			{ _id: req.params.id },
+			category,
+			{
+				new: true,
+			}
+		);
 		res.json(category);
 	} catch (error) {
 		console.log(error);
