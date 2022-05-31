@@ -1,6 +1,5 @@
 const Expense = require("../models/expenseModel");
-const Account = require("../models/accountModel");
-const Category = require("../models/categoryModel");
+const emitter = require('../shared/Event');
 
 exports.create = async (req, res) => {
 	try {
@@ -9,9 +8,7 @@ exports.create = async (req, res) => {
 
 		await expense.save();
 
-		//let account = await Account.findById(expense.account);
-        updateCategory(expense, expense.total);
-
+        emitter.emit('expenseCreated', expense);
 		res.send(expense);
 	} catch (error) {
 		console.log(error);
@@ -19,21 +16,6 @@ exports.create = async (req, res) => {
 	}
 };
 
-const updateCategory = async (expense, total) => {
-	try {
-		let category = await Category.findById(expense.category);
-		category.expense += total;
-		category = await Category.findOneAndUpdate(
-			{ _id: expense.category },
-			category,
-			{
-				new: true,
-			}
-		);
-	} catch (error) {
-		console.log(error);
-	}
-};
 
 exports.list = async (req, res) => {
 	try {
@@ -66,6 +48,7 @@ exports.delete = async (req, res) => {
 			res.status(500).send("No existe la agencia");
 		}
 		await Expense.findOneAndDelete({ _id: req.params.id });
+        emitter.emit('expenseDeleted', expense);
 		res.json({ msg: "Agencia eliminada" });
 	} catch (error) {
 		console.log(error);
@@ -86,8 +69,6 @@ exports.update = async (req, res) => {
 		expense.category = category;
 		expense.date = date;
 		expense.account = account;
-        value = totalDiff(expense.total, total);
-        updateCategory(expense, value)
 		expense.total = total;
 		expense = await Expense.findOneAndUpdate(
 			{ _id: req.params.id },
@@ -103,7 +84,4 @@ exports.update = async (req, res) => {
 	}
 };
 
-const totalDiff = (previous, actual) => { 
-    let diff = previous-actual;
-    return diff *= -1; 
-}
+

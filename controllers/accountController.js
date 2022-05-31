@@ -28,6 +28,7 @@ exports.findById = async (req, res) => {
 		if (!account) {
 			res.status(500).send("No existe la agencia");
 		}
+		return account;
 	} catch (error) {
 		console.log(error);
 		res.status(500).send("Error al cargar el registro");
@@ -40,7 +41,7 @@ exports.delete = async (req, res) => {
 		if (!account) {
 			res.status(500).send("No existe la agencia");
 		}
-        await Account.findOneAndDelete({_id: req.params.id});
+		await Account.findOneAndDelete({ _id: req.params.id });
 		res.json({ msg: "Agencia eliminada" });
 	} catch (error) {
 		console.log(error);
@@ -55,14 +56,30 @@ exports.update = async (req, res) => {
 		if (!account) {
 			res.status(500).send("No existe la agencia");
 		}
-        account.type  = type; 
+		account.type = type;
 		account.name = name;
-        account.description = description
+		account.description = description;
 
-        account = await Account.findOneAndUpdate({ _id: req.params.id }, account, {
+		account = await Account.findOneAndUpdate(
+			{ _id: req.params.id },
+			account,
+			{
+				new: true,
+			}
+		);
+		res.json(account);
+	} catch (error) {
+		console.log(error);
+	}
+};
+
+exports.updateAccountValue = async (accountId, value) => {
+	try {
+		let account = await Account.findById(accountId);
+		account.expense = value;
+		account = await Account.findOneAndUpdate({ _id: accountId }, account, {
 			new: true,
 		});
-		res.json(account);
 	} catch (error) {
 		console.log(error);
 	}
