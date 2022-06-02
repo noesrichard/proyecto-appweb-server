@@ -5,9 +5,7 @@ exports.create = async (req, res) => {
 	try {
 		let expense;
 		expense = new Expense(req.body);
-
 		await expense.save();
-
         emitter.emit('expenseCreated', expense);
 		res.send(expense);
 	} catch (error) {
@@ -19,10 +17,10 @@ exports.create = async (req, res) => {
 
 exports.list = async (req, res) => {
 	try {
-		const agencies = await Expense.find()
+		const expenses = await Expense.find()
 			.populate("account")
 			.populate("category");
-		res.json(agencies);
+		res.json(expenses);
 	} catch (error) {
 		console.log(error);
 		res.status(500).send("Error al cargar el registro");
@@ -60,7 +58,6 @@ exports.update = async (req, res) => {
 	try {
 		const { type, description, category, date, account, total } = req.body;
 		let expense = await Expense.findById(req.params.id);
-		console.log(expense);
 		if (!expense) {
 			res.status(500).send("No existe la agencia");
 		}
@@ -69,6 +66,7 @@ exports.update = async (req, res) => {
 		expense.category = category;
 		expense.date = date;
 		expense.account = account;
+        let previousExpense = expense.total;
 		expense.total = total;
 		expense = await Expense.findOneAndUpdate(
 			{ _id: req.params.id },
@@ -77,7 +75,7 @@ exports.update = async (req, res) => {
 				new: true,
 			}
 		);
-
+        emitter.emit("expenseModified", expense, previousExpense); 
 		res.json(expense);
 	} catch (error) {
 		console.log(error);

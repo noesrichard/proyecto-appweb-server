@@ -66,6 +66,7 @@ exports.update = async (req, res) => {
 		income = await Income.findOneAndUpdate({ _id: req.params.id }, income, {
 			new: true,
 		});
+        emitter.emit("incomeModified", income); 
 		res.json(income);
 	} catch (error) {
 		console.log(error);
