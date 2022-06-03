@@ -53,7 +53,8 @@ exports.delete = async (req, res) => {
 
 exports.update = async (req, res) => {
 	try {
-		const { type, description, date, account, total } = req.body;
+		const { type, description, date, account, total, dateString } = req.body;
+        console.log(req.body); 
 		let income = await Income.findById(req.params.id);
 		if (!income) {
 			res.status(500).send("No existe la agencia");
@@ -61,6 +62,7 @@ exports.update = async (req, res) => {
 		income.type = type;
 		income.description = description;
 		income.date = date;
+        income.dateString = dateString; 
 		income.account = account;
 		income.total = total;
 		income = await Income.findOneAndUpdate({ _id: req.params.id }, income, {
@@ -68,6 +70,7 @@ exports.update = async (req, res) => {
 		});
         emitter.emit("incomeModified", income); 
 		res.json(income);
+        console.log(income); 
 	} catch (error) {
 		console.log(error);
 	}

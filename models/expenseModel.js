@@ -18,6 +18,11 @@ const ExpenseSchema = mongoose.Schema({
 		type: Date,
 		require: true,
 	},
+
+	dateString: {
+		type: String,
+		require: true,
+	},
 	account: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "account",

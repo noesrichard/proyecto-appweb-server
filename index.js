@@ -15,6 +15,9 @@ app.use("/api/accounts", require("./routes/accountRoutes"));
 app.use("/api/categories", require("./routes/categoryRoutes"));
 app.use("/api/income", require("./routes/incomeRoutes"));
 app.use("/api/expenses", require("./routes/expenseRoutes"));
+app.use("/api/booking", require("./routes/bookingRoutes"));
+app.use("/api/piso", require("./routes/pisoRoutes"));
+app.use("/api/room", require("./routes/roomRoutes"));
 
 const port = process.env.PORT || 9000;
 

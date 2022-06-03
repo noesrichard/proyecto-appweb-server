@@ -56,7 +56,7 @@ exports.delete = async (req, res) => {
 
 exports.update = async (req, res) => {
 	try {
-		const { type, description, category, date, account, total } = req.body;
+		const { type, description, category, date, account, total, dateString } = req.body;
 		let expense = await Expense.findById(req.params.id);
 		if (!expense) {
 			res.status(500).send("No existe la agencia");
@@ -65,6 +65,7 @@ exports.update = async (req, res) => {
 		expense.description = description;
 		expense.category = category;
 		expense.date = date;
+        expense.dateString = dateString; 
 		expense.account = account;
         let previousExpense = expense.total;
 		expense.total = total;
