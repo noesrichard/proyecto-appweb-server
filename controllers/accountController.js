@@ -14,7 +14,7 @@ exports.create = async (req, res) => {
 
 exports.list = async (req, res) => {
 	try {
-		const agencies = await Account.find();
+        const agencies = await Account.find({ userid: req.params.userid });
 		res.json(agencies);
 	} catch (error) {
 		console.log(error);

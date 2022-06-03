@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const WishSchema = mongoose.Schema({
+userid: { 
+        type: String, 
+        require: true,
+    },
 	description: {
 		type: String,
 		require: true,

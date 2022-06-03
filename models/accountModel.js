@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const AccountSchema = mongoose.Schema({
+    userid: { 
+        type: String, 
+        require: true,
+    },
     type: { 
         type: String, 
         require: true

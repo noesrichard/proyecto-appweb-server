@@ -6,7 +6,7 @@ const incomeController = require('../controllers/incomeController');
 
 
 router.post('/', incomeController.create);
-router.get('/', incomeController.list);
+router.get('/:userid', incomeController.list);
 router.get('/:id', incomeController.findById);
 router.put('/:id', incomeController.update);
 router.delete('/:id', incomeController.delete);

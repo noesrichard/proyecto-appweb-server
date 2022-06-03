@@ -17,7 +17,7 @@ exports.create = async (req, res) => {
 
 exports.list = async (req, res) => {
 	try {
-		const expenses = await Expense.find()
+		const expenses = await Expense.find({ userid: req.params.userid })
 			.populate("account")
 			.populate("category");
 		res.json(expenses);

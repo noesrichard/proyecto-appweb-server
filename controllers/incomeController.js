@@ -16,7 +16,7 @@ exports.create = async (req, res) => {
 
 exports.list = async (req, res) => {
 	try {
-		const agencies = await Income.find().populate("account");
+		const agencies = await Income.find({ userid: req.params.userid }).populate("account");
 		res.json(agencies);
 	} catch (error) {
 		console.log(error);

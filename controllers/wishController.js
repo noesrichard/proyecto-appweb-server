@@ -16,7 +16,7 @@ exports.create = async (req, res) => {
 
 exports.list = async (req, res) => {
 	try {
-		const wishs = await Wish.find()
+		const wishs = await Wish.find({ userid: req.params.userid })
 			.populate("category");
 		res.json(wishs);
 	} catch (error) {

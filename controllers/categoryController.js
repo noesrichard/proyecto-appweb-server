@@ -2,7 +2,7 @@ const Category = require("../models/categoryModel");
 
 exports.list = async (req, res) => {
 	try {
-		const agencies = await Category.find();
+		const agencies = await Category.find({ userid: req.params.userid });
 		res.json(agencies);
 	} catch (error) {
 		console.log(error);
